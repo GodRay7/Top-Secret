@@ -4,9 +4,7 @@
 
 int main()
 {
-    char mat[5][5];
-    matrix("SeCrEt", mat);
-    buildMatrix(mat);
+    playfair_encrypt("Secret", "Hello World");
 
     return 0;
 }
