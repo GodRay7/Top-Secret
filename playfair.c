@@ -120,7 +120,7 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
    }
    copy_text[newTextIndex] = '\0';
    
-   printf("%s\n", copy_text);
+   // printf("%s\n", copy_text);
    
 
    int tLen = strlen(copy_text);
@@ -150,6 +150,40 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
 
    cipher[c_idx] = '\0';
    return cipher;
+ }
+
+ char* playfair_decrypt(const char* key, const char* cipher)
+ {
+   char mat[5][5];
+   matrix(key, mat);
+
+   int cLen = strlen(cipher);
+   char* decoded = malloc(cLen + 1);
+   int de_idx = 0;
+   
+
+   for (int i = 0; i < cLen; i += 2) {
+      char x = cipher[i];
+      char y = cipher[i + 1];
+      int row1, row2, col1, col2;
+      
+      find_pos(mat, x, &row1, &col1);
+      find_pos(mat, y, &row2, &col2);
+
+      if (row1 == row2) {
+         decoded[de_idx++] = mat[row1][(col1 + 1) % 5];
+         decoded[de_idx++] = mat[row2][(col2 + 1) % 5];
+      } else if (col1 == col2) {
+         decoded[de_idx++] = mat[(row1 - 1) % 5][col1];
+         decoded[de_idx++] = mat[(row2 - 1) % 5][col2];
+      } else {
+         decoded[de_idx++] = mat[row1][col2];
+         decoded[de_idx++] = mat[row2][col1];
+      } 
+   }
+
+   decoded[de_idx++] = '\0';
+   return decoded;
  }
  
 
