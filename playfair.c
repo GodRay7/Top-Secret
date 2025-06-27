@@ -171,11 +171,11 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
       find_pos(mat, y, &row2, &col2);
 
       if (row1 == row2) {
-         decoded[de_idx++] = mat[row1][(col1 + 1) % 5];
-         decoded[de_idx++] = mat[row2][(col2 + 1) % 5];
+         decoded[de_idx++] = mat[row1][(col1 + 4) % 5];
+         decoded[de_idx++] = mat[row2][(col2 + 4) % 5];
       } else if (col1 == col2) {
-         decoded[de_idx++] = mat[(row1 - 1) % 5][col1];
-         decoded[de_idx++] = mat[(row2 - 1) % 5][col2];
+         decoded[de_idx++] = mat[(row1 + 4) % 5][col1];
+         decoded[de_idx++] = mat[(row2 + 4) % 5][col2];
       } else {
          decoded[de_idx++] = mat[row1][col2];
          decoded[de_idx++] = mat[row2][col1];
