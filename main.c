@@ -4,7 +4,15 @@
 
 int main()
 {
-    playfair_encrypt("Secret", "Hello World");
+
+    char* cipher = playfair_encrypt("SeCReT", "Hello world");
+
+    if (cipher != NULL) {
+        printf("Encrypted: %s\n", cipher);
+        free(cipher);
+    } else {
+        printf("Error\n");
+    }
 
     return 0;
 }

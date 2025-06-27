@@ -68,6 +68,18 @@ void buildMatrix (char matrix[5][5]) {
    }
 }
 
+void find_pos(char matrix[5][5], char c, int* row, int* col) {
+   for (int i = 0; i < 5 ; i++) {
+      for (int j = 0; j < 5; j++) {
+         if (matrix[i][j] == c) {
+            *row = i;
+            *col = j;
+            return;
+         }
+      }
+   }
+}
+
  char* playfair_encrypt(const char* key, const char* text)
  {
    char mat[5][5];
@@ -80,34 +92,64 @@ void buildMatrix (char matrix[5][5]) {
    int newTextIndex = 0;
 
    for (int i = 0; i < textLen; i++) {
-      char c = text[i];
-      if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
-         return NULL;  
-      }
+    char c = text[i];
+    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+        c = to_upper(c);
+        if (c == 'W') c = 'V';
+        copy_text[newTextIndex++] = c;
+    }
+   }
 
-      if(c == ' ') continue;
-      copy_text[newTextIndex] = to_upper(c);
-      if (copy_text[newTextIndex] == 'W') {
-         copy_text[newTextIndex] = 'V';
-      }
-      newTextIndex++;
+   for (int i = 0; i < newTextIndex; i += 2) {
+    if (i + 1 == newTextIndex) {
+        copy_text[newTextIndex++] = 'X';
+        break;
+    }
+
+    if (copy_text[i] == copy_text[i + 1]) {
+        for (int j = newTextIndex; j > i + 1; j--) {
+            copy_text[j] = copy_text[j - 1];
+        }
+        copy_text[i + 1] = 'X';
+        newTextIndex++;
+    }
+   }
+
+   if (newTextIndex % 2 != 0) {
+      copy_text[newTextIndex++] = 'X';
    }
    copy_text[newTextIndex] = '\0';
-
-   for (int i = 0; i < bigTextLen; i += 2) {
-      if (copy_text[i] == copy_text[i + 1] && copy_text[i] != 'X') {
-         for (int j = bigTextLen - 1; j >= i + 2; j--) {
-            copy_text[j] = copy_text[j - 1];
-         }
-         copy_text[i + 1] = 'X';
-      }
-      if (copy_text[i] != '\0' && copy_text[i + 1] == '\0') {
-         copy_text[i + 1] = 'X';
-         copy_text[i + 2] = '\0';
-      }
-   }
+   
    printf("%s\n", copy_text);
-   return NULL;
+   
+
+   int tLen = strlen(copy_text);
+   char* cipher = malloc(tLen + 1);
+   int c_idx = 0;
+
+   for (int i = 0; i < tLen; i += 2) {
+      char x = copy_text[i];
+      char y = copy_text[i + 1];
+      int row1, row2, col1, col2;
+      
+      find_pos(mat, x, &row1, &col1);
+      find_pos(mat, y, &row2, &col2);
+
+      if (row1 == row2) {
+         cipher[c_idx++] = mat[row1][(col1 + 1) % 5];
+         cipher[c_idx++] = mat[row2][(col2 + 1) % 5];
+      } else if (col1 == col2) {
+         cipher[c_idx++] = mat[(row1 + 1) % 5][col1];
+         cipher[c_idx++] = mat[(row2 + 1) % 5][col2];
+      } else {
+         cipher[c_idx++] = mat[row1][col2];
+         cipher[c_idx++] = mat[row2][col1];
+      } 
+   }  
+   
+
+   cipher[c_idx] = '\0';
+   return cipher;
  }
  
 
