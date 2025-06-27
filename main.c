@@ -4,8 +4,8 @@
 
 int main()
 {
-    const char* key = "SeCReT";
-    const char* text = "Hello world";
+    const char* key = "please";
+    const char* text = "Taxxxiii";
 
     char* cipher = playfair_encrypt(key, text);
     if (cipher != NULL) {

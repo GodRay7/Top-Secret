@@ -101,18 +101,22 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
    }
 
    for (int i = 0; i < newTextIndex; i += 2) {
-    if (i + 1 == newTextIndex) {
+      if (i + 1 == newTextIndex) {
         copy_text[newTextIndex++] = 'X';
         break;
-    }
+      }
 
-    if (copy_text[i] == copy_text[i + 1]) {
-        for (int j = newTextIndex; j > i + 1; j--) {
+      if ((copy_text[i] == copy_text[i + 1]) && (copy_text[i] == copy_text[i + 2])) {
+         continue;
+         newTextIndex++;
+      }else if (copy_text[i] == copy_text[i + 1]) {
+         for (int j = newTextIndex; j > i + 1; j--) {
             copy_text[j] = copy_text[j - 1];
-        }
-        copy_text[i + 1] = 'X';
-        newTextIndex++;
-    }
+         }
+         copy_text[i + 1] = 'X';
+         newTextIndex++;
+      }
+    
    }
 
    if (newTextIndex % 2 != 0) {
@@ -122,7 +126,6 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
    
    // printf("%s\n", copy_text);
    
-
    int tLen = strlen(copy_text);
    char* cipher = malloc(tLen + 1);
    int c_idx = 0;
