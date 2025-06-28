@@ -14,12 +14,12 @@ int main()
         printf("Error\n");
     }
 
-    char* decrypted = playfair_decrypt(key, cipher);
-    if (decrypted != NULL) {
-        printf("Decrypted: %s\n", decrypted);
-        free(decrypted);  
+    char* decoded = playfair_decrypt(key, cipher);
+    if (decoded != NULL) {
+        printf("Decrypted: %s\n", decoded);
+        free(decoded);  
     } else {
-        printf("Error in decryption\n");
+        printf("Error\n");
     }
 
     free(cipher);

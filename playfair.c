@@ -141,12 +141,15 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
       if (row1 == row2) {
          cipher[c_idx++] = mat[row1][(col1 + 1) % 5];
          cipher[c_idx++] = mat[row2][(col2 + 1) % 5];
+         cipher[c_idx++] = ' ';
       } else if (col1 == col2) {
          cipher[c_idx++] = mat[(row1 + 1) % 5][col1];
          cipher[c_idx++] = mat[(row2 + 1) % 5][col2];
+         cipher[c_idx++] = ' ';
       } else {
          cipher[c_idx++] = mat[row1][col2];
          cipher[c_idx++] = mat[row2][col1];
+         cipher[c_idx++] = ' ';
       } 
    }  
    
@@ -163,15 +166,20 @@ void find_pos(char matrix[5][5], char c, int* row, int* col) {
    int cLen = strlen(cipher);
    char* decoded = malloc(cLen + 1);
    int de_idx = 0;
-   
 
+   
    for (int i = 0; i < cLen; i += 2) {
+
       char x = cipher[i];
       char y = cipher[i + 1];
       int row1, row2, col1, col2;
-      
+
       find_pos(mat, x, &row1, &col1);
       find_pos(mat, y, &row2, &col2);
+
+      if (cipher[i] == ' ') {
+         continue;
+      } 
 
       if (row1 == row2) {
          decoded[de_idx++] = mat[row1][(col1 + 4) % 5];
