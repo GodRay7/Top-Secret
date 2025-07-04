@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include "playfair.h"
 
+
 int main()
 {
     const char* key = "please";
     const char* text = "Taxxxiii";
+
+    printf("key: please, text: Taxxxiii\n");
 
     char* cipher = playfair_encrypt(key, text);
     if (cipher != NULL) {
@@ -23,5 +26,8 @@ int main()
     }
 
     free(cipher);
+
+
+    
     return 0;
 }

@@ -2,7 +2,7 @@
  
  char* playfair_encrypt(const char* key, const char* text);
 
- char* playfair_decrypt(const char* key, const char* cipher);
+ char* playfair_decrypt(const char* key, const char* text);
 
  char to_upper(char c);
 
