@@ -1,0 +1,1 @@
+char* reverse(const char* text);
