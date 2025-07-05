@@ -5,7 +5,16 @@
 
 void letterToBit (unsigned char c, int* bits)
 {
-    int nits[8] = {128, 64, 32, 16, 8, 4, 2, 1};
+    int bits[8] = {128, 64, 32, 16, 8, 4, 2, 1};
+
+    for (int i = 0; i < 8; i++) {
+        if (c >= bits[i]) {
+            c -= bits[i];
+            bits[i] = 1;
+        }else {
+            bits[i] = 0;
+        }
+    }
 }
 
 
@@ -17,6 +26,8 @@ unsigned char* bit_encrypt(const char* text)
 
     H = 72
     128, 64, 32, 16, 8, 4, 2, 1
+
+    there
 
     01001000
     split 4 and 4
