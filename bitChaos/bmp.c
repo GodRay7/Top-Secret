@@ -5,11 +5,11 @@
 
 void letterToBit (unsigned char c, int* bits)
 {
-    int bits[8] = {128, 64, 32, 16, 8, 4, 2, 1};
+    int bit[8] = {128, 64, 32, 16, 8, 4, 2, 1};
 
     for (int i = 0; i < 8; i++) {
-        if (c >= bits[i]) {
-            c -= bits[i];
+        if (c >= bit[i]) {
+            c -= bit[i];
             bits[i] = 1;
         }else {
             bits[i] = 0;
@@ -17,30 +17,55 @@ void letterToBit (unsigned char c, int* bits)
     }
 }
 
+void bitSwapper (int* first)
+{
+    for (int i = 0; i < 4 - 1; i += 2) {
+        int temp = first[i];
+        first[i] = first[i + 1];
+        first[i + 1] = temp;
+    }
+}
+
+unsigned char bitsToBit(int* bits)
+{
+    unsigned char result = 0;
+    for (int i = 0; i < 4; i++) {
+        result |= (bits[i] << (3 - i));
+    }
+    return result;
+}
 
 unsigned char* bit_encrypt(const char* text)
 {
-    /*
-    Hello world!
-    change to bit
 
-    H = 72
-    128, 64, 32, 16, 8, 4, 2, 1
 
-    there
+   int Len = strlen(text);
+   unsigned char* encrypted = malloc(Len + 1 * sizeof(unsigned char));
+   if (!encrypted) return NULL;
 
-    01001000
-    split 4 and 4
-    0100  1000
-    change numbers in 1st group
-    1000
-    XOR 1000
-        1000 1st group after change
-        0000
+   for (int i = 0; i < Len; i++) {
+    int bits[8];
 
-    write together 1st group after change and resut of XOR
-    10000000
+    letterToBit(text[i], bits);
 
-    */
-   
+    int first[4],second[4];
+    for (int j = 0; j < 4; j++) {
+        first[j] = bits[j];
+        second[j] = bits[j + 4];
+    }
+
+    bitSwapper(first);
+
+    int xored[4];
+    for (int j = 0; j < 4; j++) {
+        xored[j] = first[j] ^ second[j];
+    }
+
+    unsigned char left = bitsToBit(first);
+    unsigned char right = bitsToBit(xored);
+
+    encrypted[i] = (left << 4) | right;
+   }
+    encrypted[Len] = '\0';
+    return encrypted;
 }
