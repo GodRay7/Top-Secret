@@ -33,7 +33,7 @@ void matrix (const char* key, char matrix[5][5])
          continue;
       }
 
-      if (!used[c - 'A']) {
+      if (!used[c - 'A']) { //in ACII table 'A' = 65 so c - 'A' = c - 65
          used[c - 'A'] = 1;
          matrix[counter / 5][counter % 5] = c;
          counter++;
