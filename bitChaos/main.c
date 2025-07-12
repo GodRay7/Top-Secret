@@ -17,6 +17,16 @@ int main()
     }
     printf("\n");
 
+    char* decrypted = bit_decrypt(encrypted);
+    if (!decrypted) {
+        printf("Error during decryption\n");
+        free(encrypted);
+        return 1;
+    }
+
+    printf("Decrypted: %s\n", decrypted);
+
     free(encrypted);
+    free(decrypted);
     return 0;
 }
